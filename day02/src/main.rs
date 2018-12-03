@@ -15,16 +15,8 @@ fn checksum_ids(reader: &mut io::BufRead) -> u32 {
     let mut twos = 0u32;
     let mut threes = 0u32;
 
-    loop {
-        let mut line = String::new();
-        reader.read_line(&mut line).expect("reading from cursor won't fail");
-        line.pop(); // Remove trailing newline
-
-        if line.is_empty() {
-            break;
-        }
-
-        let counts = count_letters(&line);
+    for id in read_ids(reader) {
+        let counts = count_letters(&id);
         if has_exact_repeating(&counts, 2) {
             twos += 1;
         }
